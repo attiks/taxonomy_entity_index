@@ -12,8 +12,8 @@ function taxonomy_entity_index_views_data_alter(&$data) {
 
       // Join on all entity tables.
       $data['taxonomy_entity_index']['table']['join'][$base_table] = array(
-        'left_field' => $info['entity keys']['id'],
-        'field' => 'entity_id',
+        'left_field' => isset($info['entity keys']['revision']) ? $info['entity keys']['revision'] : $info['entity keys']['id'],
+        'field' => isset($info['entity keys']['revision']) ? 'revision_id' : 'entity_id',
       );
 
       $data[$base_table]['taxonomy_entity_index_tid_depth'] = array(
@@ -36,10 +36,10 @@ function taxonomy_entity_index_views_data_alter(&$data) {
         'title' => t('Taxonomy terms on @entity_type', array('@entity_type' => $info['label'])),
         'help' => t('Relate @entity_type to taxonomy terms. This relationship will cause duplicated records if there are multiple terms.', array('@entity_type' => $info['label'])),
         'relationship' => array(
-          'real field' => $info['entity keys']['id'],
+          'real field' => isset($info['entity keys']['revision']) ? $info['entity keys']['revision'] : $info['entity keys']['id'],
           'label' => t('terms'),
           'base' => 'taxonomy_entity_index',
-          'base field' => 'entity_id',
+          'base field' => isset($info['entity keys']['revision']) ? 'revision_id' : 'entity_id',
           'extra' => array(
             array(
               'field' => 'entity_type',
